@@ -38,7 +38,7 @@ namespace FullStackAuth_WebAPI.Controllers
         {
             try
             {
-                var user = _context.Users.Where(user => user.Id == id);
+                var user = _context.Users.FirstOrDefault(user => user.Id == id);
                 if (user is null)
                     return NotFound();
 
