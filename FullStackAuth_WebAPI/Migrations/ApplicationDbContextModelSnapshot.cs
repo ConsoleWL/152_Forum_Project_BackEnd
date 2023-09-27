@@ -71,6 +71,9 @@ namespace FullStackAuth_WebAPI.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -93,6 +96,12 @@ namespace FullStackAuth_WebAPI.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("RegistrationData")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -144,13 +153,13 @@ namespace FullStackAuth_WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ae9ad825-34f6-4f5e-be7b-e13ce44c4881",
+                            Id = "8b5c84cd-bc81-4d7c-a034-e44191964408",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "ac5b4bce-63ed-4835-b539-bdd603e9558b",
+                            Id = "1b274432-4880-4995-bf9b-8bad112faebe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

@@ -14,10 +14,7 @@ namespace FullStackAuth_WebAPI.DataTransferObjects
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public int Likes { get; set; }
-        public DateTime RegistrationData { get; set; }
+        public DateTime RegistrationTime { get; set; }
         public string ProfilePicture { get; set; }
-
-
-
     }
 }
