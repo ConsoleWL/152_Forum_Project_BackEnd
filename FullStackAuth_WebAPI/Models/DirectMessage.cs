@@ -1,22 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FullStackAuth_WebAPI.Models
 {
     public class DirectMessage
     {
+        [Key]
         public int DirectMessageId { get; set; }
+
+        [MaxLength(200, ErrorMessage = "200 symbols max")]
         public string Text { get; set; }
 
         // Nav props
 
-        // Line from 12 to 20 is totally wrong i think
-        public User FromUser { get; set; }
-        [ForeignKey("FromUser")]
-        public string FromUserId { get; set; }
-
-
-        public User ToUser { get; set; }
-        [ForeignKey("ToUser")]
-        public string ToMyUserId { get; set; }
+        public List<User> Users { get; set; }
     }
 }
