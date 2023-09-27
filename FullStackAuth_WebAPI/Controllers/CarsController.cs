@@ -43,8 +43,6 @@ namespace FullStackAuth_WebAPI.Controllers
                     Owner = new UserForDisplayDto
                     {
                         Id = c.Owner.Id,
-                        FirstName = c.Owner.FirstName,
-                        LastName = c.Owner.LastName,
                         UserName = c.Owner.UserName,
                     }
                 }).ToList();
