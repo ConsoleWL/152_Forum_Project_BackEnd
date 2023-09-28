@@ -13,8 +13,8 @@ namespace FullStackAuth_WebAPI.DataTransferObjects
         public string ProfilePicture { get; set; }
 
         //nav
-        public List<Topic> Topics { get; set; }
+        public List<TopicForDisplayDto> Topics { get; set; }
         public List<Comment> Comments { get; set; }
-        public List<DirectMessage> DirectMessages { get; set; }
+        
     }
 }

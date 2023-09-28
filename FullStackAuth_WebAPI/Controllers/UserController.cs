@@ -1,4 +1,5 @@
 ﻿using FullStackAuth_WebAPI.Data;
+using FullStackAuth_WebAPI.DataTransferObjects;
 using FullStackAuth_WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +26,7 @@ namespace FullStackAuth_WebAPI.Controllers
             try
             {
                 var users = _context.Users.ToList();
+
                 return Ok(users);
             }
             catch (Exception ex)
@@ -38,11 +40,35 @@ namespace FullStackAuth_WebAPI.Controllers
         {
             try
             {
-                var user = _context.Users.FirstOrDefault(user => user.Id == id);
+                //var user = _context.Users.FirstOrDefault(user => user.Id == id);
+
+                var user = _context.Users.Include(t => t.Topics)
+                                         //.Include(c => c.Comments)
+                                         .FirstOrDefault(user => user.Id == id);
                 if (user is null)
                     return NotFound();
 
-                return Ok(user);
+                var topics = _context.Topics.Include(u => u.User).Where(user => user.UserId == id).ToList();
+
+                var userDto = new UserForDisplayDto
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Likes = user.Likes,
+                    RegistrationData = user.RegistrationData,
+                    ProfilePicture = user.ProfilePicture,
+                    Topics = topics.Select(t => new TopicForDisplayDto
+                    {
+                        TopicId = t.TopicId,
+                        Title = t.Title,
+                        Text = t.Text,
+                        TimePosted = t.TimePosted,
+                        Likes = t.Likes
+                    }).ToList()
+
+                };
+
+                return Ok(userDto);
             }
             catch (Exception ex)
             {

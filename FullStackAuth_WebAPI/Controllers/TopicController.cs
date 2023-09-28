@@ -1,10 +1,13 @@
 ﻿using AutoMapper.Configuration.Conventions;
 using FullStackAuth_WebAPI.Data;
+using FullStackAuth_WebAPI.DataTransferObjects;
 using FullStackAuth_WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using System.Formats.Asn1;
 using System.Security.Claims;
 
 namespace FullStackAuth_WebAPI.Controllers
@@ -67,6 +70,8 @@ namespace FullStackAuth_WebAPI.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                _context.SaveChanges();
+
                 return StatusCode(201, topic);
             }
             catch (Exception ex)
@@ -93,6 +98,50 @@ namespace FullStackAuth_WebAPI.Controllers
 
                 return StatusCode(204);
 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("{id}"), Authorize]
+        public IActionResult Put(int id, [FromBody] Topic topic)
+        {
+            try
+            {
+                var existTopic = _context.Topics.Include(u => u.User)
+                                                .FirstOrDefault(topic => topic.TopicId == id);
+                if (existTopic is null)
+                    return NotFound();
+
+                string userId = User.FindFirstValue("id");
+
+                if (string.IsNullOrEmpty(userId) || existTopic.UserId != userId)
+                    return Unauthorized();
+
+                existTopic.Title = topic.Title;
+                existTopic.Text = topic.Text;
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                _context.SaveChanges();
+
+                var userForUpdateDto = new UserForUpdateDto
+                {
+                    UserName = existTopic.User.UserName
+                };
+
+                var topicforUpdateDto = new TopicForUpdateDto
+                {
+                    Title = existTopic.Title,
+                    Text = existTopic.Text,
+                    UserId = existTopic.UserId,
+                    User = userForUpdateDto
+                };
+
+                return StatusCode(201, topicforUpdateDto);
             }
             catch (Exception ex)
             {
