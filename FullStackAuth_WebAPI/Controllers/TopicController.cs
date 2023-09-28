@@ -1,4 +1,5 @@
-﻿using FullStackAuth_WebAPI.Data;
+﻿using AutoMapper.Configuration.Conventions;
+using FullStackAuth_WebAPI.Data;
 using FullStackAuth_WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -73,5 +74,31 @@ namespace FullStackAuth_WebAPI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpDelete("{id}"), Authorize]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var topic = _context.Topics.FirstOrDefault(topic => topic.TopicId == id);
+                if (topic is null)
+                    return NotFound();
+
+                var userId = User.FindFirstValue("id");
+                if (string.IsNullOrEmpty(userId) || topic.UserId != userId)
+                    return Unauthorized();
+
+                _context.Topics.Remove(topic);
+                _context.SaveChanges();
+
+                return StatusCode(204);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

@@ -216,6 +216,7 @@ namespace FullStackAuth_WebAPI.Migrations
                 {
                     TopicId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
                     Text = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     TimePosted = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Likes = table.Column<int>(type: "int", nullable: true),
@@ -291,8 +292,8 @@ namespace FullStackAuth_WebAPI.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "15487594-915f-4062-a032-e4e2ae6531f1", null, "User", "USER" },
-                    { "f2452105-a7bf-43b7-95cf-67db162d5328", null, "Admin", "ADMIN" }
+                    { "0a0e71a3-91c5-47a2-b9c1-aa2868c4149e", null, "User", "USER" },
+                    { "795f9866-b4a0-408c-954b-c3e3a9f31afe", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

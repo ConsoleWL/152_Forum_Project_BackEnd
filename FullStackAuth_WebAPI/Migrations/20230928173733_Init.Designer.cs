@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FullStackAuth_WebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230927195116_Init")]
+    [Migration("20230928173733_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -125,6 +125,10 @@ namespace FullStackAuth_WebAPI.Migrations
 
                     b.Property<DateTime?>("TimePosted")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
@@ -243,13 +247,13 @@ namespace FullStackAuth_WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "15487594-915f-4062-a032-e4e2ae6531f1",
+                            Id = "0a0e71a3-91c5-47a2-b9c1-aa2868c4149e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "f2452105-a7bf-43b7-95cf-67db162d5328",
+                            Id = "795f9866-b4a0-408c-954b-c3e3a9f31afe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

@@ -9,6 +9,9 @@ namespace FullStackAuth_WebAPI.Models
         [Key]
         public int TopicId { get; set; }
 
+        [MaxLength(20)]
+        public string Title { get; set; }
+
         [MaxLength(500)]
         public string Text { get; set; }
 
@@ -25,3 +28,4 @@ namespace FullStackAuth_WebAPI.Models
         public List<Comment> Comments { get; set; }
     }
 }
+
