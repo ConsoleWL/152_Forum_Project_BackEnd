@@ -40,8 +40,6 @@ namespace FullStackAuth_WebAPI.Controllers
         {
             try
             {
-                //var user = _context.Users.FirstOrDefault(user => user.Id == id);
-
                 var user = _context.Users.Include(t => t.Topics)
                                          //.Include(c => c.Comments)
                                          .FirstOrDefault(user => user.Id == id);
