@@ -29,6 +29,10 @@ namespace FullStackAuth_WebAPI.Controllers
             try
             {
                 var posts = _context.Topics.ToList();
+                
+
+                // would be noce to know how to get a list of comment and inside list their comments inside 
+                // I don;t really think you need to do that but 
 
                 return Ok(posts);
             }

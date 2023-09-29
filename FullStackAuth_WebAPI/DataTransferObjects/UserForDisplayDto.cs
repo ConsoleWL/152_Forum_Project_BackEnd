@@ -14,7 +14,7 @@ namespace FullStackAuth_WebAPI.DataTransferObjects
 
         //nav
         public List<TopicForDisplayDto> Topics { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<CommentFoDisplayingDtoWithoutNav> Comments { get; set; }
         
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FullStackAuth_WebAPI.Data;
+using FullStackAuth_WebAPI.DataTransferObjects;
 using FullStackAuth_WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +25,15 @@ namespace FullStackAuth_WebAPI.Controllers
         {
             try
             {
-                var comments = _context.Comments.ToList();
+                var comments = _context.Comments.Include(u=>u.User)
+                                                .Include(t=>t.Topic)
+                                                .ToList();
+
+                //var commentsDto =  new List<CommentFoDisplayingDto>
+                //{
+                //    // how to make all of the comments throught dto list
+                //};
+
                 return StatusCode(200, comments);
             }
             catch (Exception ex)
@@ -52,6 +61,8 @@ namespace FullStackAuth_WebAPI.Controllers
 
                 _context.SaveChanges();
 
+
+
                 return StatusCode(201, comment);
             }
             catch (Exception ex)
@@ -65,7 +76,9 @@ namespace FullStackAuth_WebAPI.Controllers
         {
             try
             {
-                var existComment = _context.Comments.Include(o => o.User).FirstOrDefault(f => f.CommentId == id);
+                var existComment = _context.Comments.Include(o => o.User)
+                                                    .Include(t => t.Topic)
+                                                    .FirstOrDefault(f => f.CommentId == id);
                 if (existComment is null)
                     return NotFound();
 
@@ -81,7 +94,26 @@ namespace FullStackAuth_WebAPI.Controllers
 
                 _context.SaveChanges();
 
-                return StatusCode(201, existComment);
+                var user = new UserForUpdateDto
+                {
+                    UserName = existComment.User.UserName
+                };
+
+                var topic = new TopicForDisplayngCommentDto
+                {
+                    Title = existComment.Topic.Title
+                };
+
+                var existingCommentDto = new CommentFoDisplayingDto
+                {
+                    CommentId = existComment.CommentId,
+                    Text = existComment.Text,
+                    TimePosted = existComment.TimePosted,
+                    User = user,
+                    Topic = topic
+                };
+
+                return StatusCode(201, existingCommentDto);
             }
             catch (Exception ex)
             {

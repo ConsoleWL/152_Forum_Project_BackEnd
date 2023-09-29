@@ -41,12 +41,13 @@ namespace FullStackAuth_WebAPI.Controllers
             try
             {
                 var user = _context.Users.Include(t => t.Topics)
-                                         //.Include(c => c.Comments)
+                                         .Include(c => c.Comments)
                                          .FirstOrDefault(user => user.Id == id);
                 if (user is null)
                     return NotFound();
 
                 var topics = _context.Topics.Include(u => u.User).Where(user => user.UserId == id).ToList();
+                var comments = _context.Comments.Where(user => user.UserId == id).ToList();
 
                 var userDto = new UserForDisplayDto
                 {
@@ -62,6 +63,12 @@ namespace FullStackAuth_WebAPI.Controllers
                         Text = t.Text,
                         TimePosted = t.TimePosted,
                         Likes = t.Likes
+                    }).ToList(),
+                    Comments = comments.Select(c => new CommentFoDisplayingDtoWithoutNav
+                    {
+                        CommentId = c.CommentId,
+                        Text = c.Text,
+                        TimePosted = c.TimePosted
                     }).ToList()
 
                 };
